@@ -1,4 +1,5 @@
 require "wolfram-alpha"
+require "cgi"
 
 module Responders
   class Wolfram < ApplicationResponder
@@ -15,12 +16,13 @@ module Responders
 
       api_response = client.query message["body"]
 
-      api_response.drop(1).take(5).select {
+      api_response.drop(1).take(4).select {
         |pod| pod.subpods.any? { |subpod| subpod.plaintext != "" }
       }
       .map {
         |pod| text_response(make_text_response pod)
       }
+      .push text_response("For more information, visit http://www.wolframalpha.com/input/?i=#{CGI.escape(message["body"])}")
     end
   end
 end
