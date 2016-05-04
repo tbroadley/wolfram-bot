@@ -16,10 +16,10 @@ module Responders
 
       api_response = client.query message["body"]
 
-      api_response.drop(1).take(4).select {
-        |pod| pod.subpods.any? { |subpod| subpod.plaintext != "" }
+      api_response.drop(1).select {
+        |pod| pod.subpods.any? { |subpod| subpod.plaintext.strip.length != 0 }
       }
-      .map {
+      .take(4).map {
         |pod| text_response(make_text_response pod)
       }
       .push text_response("For more information, visit http://www.wolframalpha.com/input/?i=#{CGI.escape(message["body"])}")
