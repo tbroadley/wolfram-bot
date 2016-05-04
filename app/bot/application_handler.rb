@@ -1,4 +1,5 @@
 class ApplicationHandler < Bot::Handler
+  use Responders::Introduction
   use Responders::Wolfram
   use Responders::Default
 
