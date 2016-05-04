@@ -1,4 +1,5 @@
 class ApplicationHandler < Bot::Handler
+  use Responders::Wolfram
   use Responders::Default
 
   def user_for(message)
